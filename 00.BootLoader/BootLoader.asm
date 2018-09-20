@@ -30,7 +30,7 @@ START:
 
 .SCREENCLEARLOOP:   ; 화면 clear 함수
     mov byte [ es: si ], 0      ; 문자 설정
-    mov byte [ es: si + 1], 0x0A   ; 속성 및 배경색, 전경색 설정
+    mov byte [ es: si + 1 ], 0x0A   ; 속성 및 배경색, 전경색 설정
 
     add si, 2
 
@@ -83,6 +83,7 @@ READDATA:
     mov cl, byte [ SECTORNUMBER ]   ; 읽을 섹터 번호 설정
     mov dh, byte [ HEADNUMBER ]     ; 읽을 헤드 번호 설정
     mov dl, 0x00                    ; 읽을 드라이브 번호(0=Floppy) 설정
+    int 0x13
     jc HANDLEDISKERROR              ; 에러처리
 
     ; 복사할 어드레스와 트랙 헤드, 섹터 어드레스 계산
@@ -170,7 +171,7 @@ PRINTMESSAGE:
     cmp cl, 0   ; 문자열의 끝인지 비교
     je .MESSAGEEND  ; 끝이면 MESSAGEEND로 점프
 
-    mov byte[ es: di ], cl ; 문자 값을 비디오 메모리(현재 es 레지스터)에 삽입
+    mov byte [ es: di ], cl ; 문자 값을 비디오 메모리(현재 es 레지스터)에 삽입
 
     add si, 1   ; 문자열 인덱스 ++
     add di, 2   ; 비디오 메모리 인덱스++ (문자 + 속성 = 2바이트)
@@ -188,8 +189,6 @@ PRINTMESSAGE:
 
     pop bp ; 베이스 포인터 복구
     ret    ; ret = pop eip, jmp eip >_<
-
-jmp $  ; loop
 
 ;=============
 ; 데이터 영역
