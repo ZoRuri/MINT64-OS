@@ -8,7 +8,7 @@ jmp 0x07C0:START   ; CS 세그먼트 레지스터 0x07C0을 복사하면서 START 레이블로 이�
 ;====================
 ; MINT64 OS 환경 설정 값
 ;====================
-TOTALSECTORCOUNT:   dw 1024 ; 부트 로더를 제외한 MINT64 OS 이미지 크기
+TOTALSECTORCOUNT:   dw 1 ; 부트 로더를 제외한 MINT64 OS 이미지 크기
                             ; 최대 1152 섹터(0x90000bytes)까지 가능
 
 ;====================
